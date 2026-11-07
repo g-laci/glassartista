@@ -13,10 +13,11 @@ function NavLabel({isActive, children}) {
     return <span className={isActive ? 'underline' : 'hover:underline hover:decoration-dashed'}>{children}</span>;
 }
 
-/** Desktop navbar entry that navigates on press. */
-export function NavTextButton({isActive, onPress, children}) {
+/** Desktop navbar entry: a crawlable link styled as a button. */
+export function NavTextButton({isActive, href, children}) {
     return (
-        <Button className={NAV_BUTTON_CLASS} radius="full" onPress={onPress}>
+        <Button as={Link} href={href} className={NAV_BUTTON_CLASS} radius="full"
+                aria-current={isActive ? 'page' : undefined}>
             <NavLabel isActive={isActive}>{children}</NavLabel>
         </Button>
     );
@@ -28,9 +29,10 @@ export function DropdownChevron({isOpen}) {
 }
 
 /**
- * Desktop navbar dropdown that opens on hover. `children` must be the `DropdownMenu`.
+ * Desktop navbar dropdown that opens on hover. `children` must be the `DropdownMenu`. With `href` the
+ * label is also a crawlable link to the section's page (clicking it opens the page at its top).
  */
-export function HoverDropdown({isOpen, setIsOpen, label, isActive, variant, children}) {
+export function HoverDropdown({isOpen, setIsOpen, label, isActive, variant, href, children}) {
     const open = () => setIsOpen(true);
     const close = () => setIsOpen(false);
 
@@ -39,6 +41,7 @@ export function HoverDropdown({isOpen, setIsOpen, label, isActive, variant, chil
             <NavbarItem onMouseEnter={open} onMouseLeave={close} className="py-2 cursor-pointer">
                 <DropdownTrigger>
                     <Button
+                        {...(href ? {as: Link, href} : {})}
                         className={`${NAV_BUTTON_CLASS} cursor-default`}
                         radius="full"
                         disableRipple={true}

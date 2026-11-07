@@ -1,42 +1,38 @@
 'use client'
 
-import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {useSite} from "@/app/lib/SiteContext";
-import {stripLocaleFromPath} from "@/app/lib/i18n";
+import {brandHref, localizePath, stripLocaleFromPath} from "@/app/lib/i18n";
+
+/**
+ * Public page path ("/", "/gallery", "/tiffanylamps", ...) without locale prefix. Accepts both the public
+ * URL (browser) and the internal route path (/{site}/{locale}/tiffanystudio/...) seen while prerendering,
+ * so server and client render identical markup.
+ */
+export function toPagePath(pathname, siteKey) {
+    let path = pathname || '/';
+    if (path === `/${siteKey}` || path.startsWith(`/${siteKey}/`)) path = path.slice(siteKey.length + 1) || '/';
+    path = stripLocaleFromPath(path);
+    if (path === '/tiffanystudio' || path.startsWith('/tiffanystudio/')) path = path.slice('/tiffanystudio'.length) || '/';
+    return path.replace(/\/+$/, '') || '/';
+}
 
 /** Locale-aware navigation helpers shared by the navbars and the footer. */
 export function useLocaleNavigation() {
-    const {host, locale, hostConfig} = useSite();
-    const pathname = usePathname() || '/';
-    const searchParams = useSearchParams();
+    const {host, locale, site} = useSite();
+    const pagePath = toPagePath(usePathname(), host);
     const router = useRouter();
 
-    const isHiddenDefault = (targetLocale) => hostConfig.hideDefault && targetLocale === hostConfig.defaultLocale;
+    /** `path` (e.g. "/gallery#dome") on this site in the current locale. */
+    const localized = (path) => localizePath(host, path, locale);
 
-    /** `path` in the current locale; unprefixed when the locale is the host's hidden default. */
-    const localized = (path) => {
-        const normalized = path.startsWith('/') ? path : `/${path}`;
-        return isHiddenDefault(locale) ? normalized : `/${locale}${normalized}`;
-    };
+    /** Crawlable link to the current page in `targetLocale` (may point to the other studio domain). */
+    const localeHref = (targetLocale) => brandHref(host, pagePath, targetLocale);
 
-    /** The current page (path without locale, query and hash). Call from event handlers only. */
-    const currentPage = () => {
-        const query = searchParams?.toString();
-        const search = query ? `?${query}` : '';
-        return `${stripLocaleFromPath(pathname)}${search}${window.location.hash}`;
-    };
-
-    /** The current page in `targetLocale`. Call from event handlers only. */
-    const currentPageIn = (targetLocale) =>
-        isHiddenDefault(targetLocale) ? currentPage() : `/${targetLocale}${currentPage()}`;
-
-    /** Navigates to the current page in `targetLocale` (the language switchers). */
+    /** Navigates to the current page in `targetLocale`, keeping query and hash. Event handlers only. */
     const switchLocale = (targetLocale) => {
-        // tiffanystudio.hu has no German version: German lives on the Austrian domain.
-        router.push(host === 'tiffanystudio.hu' && targetLocale === 'de'
-            ? `https://www.tiffanystudio.at${currentPage()}`
-            : currentPageIn(targetLocale));
+        router.push(`${localeHref(targetLocale)}${window.location.search}${window.location.hash}`);
     };
 
-    return {host, locale, hostConfig, pathname, router, localized, switchLocale};
+    return {host, locale, site, pagePath, router, localized, localeHref, switchLocale};
 }

@@ -26,7 +26,7 @@ import {BiArch, BiVerticalTop} from "react-icons/bi";
 import {LiaPencilRulerSolid} from "react-icons/lia";
 import {MdChurch, MdGridGoldenratio, MdVideoLibrary} from "react-icons/md";
 import {useLocaleNavigation} from "@/app/components/navigation/useLocaleNavigation";
-import {FlagAvatar} from "@/app/components/navigation/FlagAvatar";
+import {FlagAvatar, LOCALE_LABELS} from "@/app/components/navigation/FlagAvatar";
 import {
     DesktopContactLinks,
     DropdownChevron,
@@ -57,17 +57,14 @@ const DETAILS_ITEMS = [
     {key: 'videos', Icon: MdVideoLibrary},
 ];
 
-const LOCALE_LABELS = {hu: 'Magyar', de: 'Deutsch', en: 'English'};
 const MOBILE_FLAG_SIZE = {hu: '!w-6 !h-6', de: '!w-6 !h-6', en: '!w-5.5 !h-5.5'};
 const BAR_BASE_CLASS = "animate__animated animate__fadeInDown bg-transparent select-none uppercase antonio-navbar";
 const MOBILE_GRID_ITEM_CLASS = 'border-2 border-gray-200';
 const LOGO_SRC = "/design/glassartista_logo_text_gradient.png";
 
-/** Navbar label for the current route ('' for routes without one). */
-function getRouteLabel(pathname, t) {
-    let route = pathname.split('/').filter(Boolean);
-    if (LOCALES.includes(route[0])) route = route.slice(1);
-    switch (`/${route.join('/')}`) {
+/** Navbar label for the current page ('' for pages without one). */
+function getRouteLabel(pagePath, t) {
+    switch (pagePath) {
         case '/':
         case '/home':
             return t.main;
@@ -83,24 +80,18 @@ function getRouteLabel(pathname, t) {
 }
 
 export default function NavbarGlassArtista() {
-    const {locale, pathname, router, localized, switchLocale} = useLocaleNavigation();
+    const {locale, pagePath, localized, switchLocale} = useLocaleNavigation();
     const t = GLASSARTISTA_NAV_TEXT[locale];
     const phone = getGlassArtistaPhone(locale);
 
     const [isGalleryOpen, setGalleryIsOpen] = useState(false);
     const [isDetailsOpen, setDetailsIsOpen] = useState(false);
 
-    const navigate = (path) => router.push(localized(path));
-
     // The first entry of each menu opens the page at its top, the others jump to their section.
-    const openGallerySection = (key) => {
-        navigate(key === GALLERY_ITEMS[0].key ? '/gallery' : `/gallery#${key}`);
-        setGalleryIsOpen(false);
-    };
-    const openDetailsSection = (key) => {
-        navigate(key === DETAILS_ITEMS[0].key ? '/details' : `/details#${key}`);
-        setDetailsIsOpen(false);
-    };
+    const galleryHref = (key) => localized(key === GALLERY_ITEMS[0].key ? '/gallery' : `/gallery#${key}`);
+    const detailsHref = (key) => localized(key === DETAILS_ITEMS[0].key ? '/details' : `/details#${key}`);
+    const closeGallery = () => setGalleryIsOpen(false);
+    const closeDetails = () => setDetailsIsOpen(false);
 
     const linkClass = (isActive) => isActive ? 'underline' : 'hover:underline hover:decoration-dashed';
 
@@ -120,31 +111,31 @@ export default function NavbarGlassArtista() {
                                 style={{padding: 0}}
                                 endContent={<DropdownChevron isOpen={isGalleryOpen}/>}
                             >
-                                {getRouteLabel(pathname, t)}
+                                {getRouteLabel(pagePath, t)}
                             </Button>
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Dropdown menu">
                             <DropdownSection showDivider>
-                                <DropdownItem key="landing_page" onPress={() => navigate('/')}>
+                                <DropdownItem key="landing_page" href={localized('/')}>
                                     <span className={linkClass(false)}>{t.landing}</span>
                                 </DropdownItem>
-                                <DropdownItem key="main" onPress={() => navigate('/home')}>
-                                    <span className={linkClass(pathname.endsWith('/home'))}>{t.main}</span>
+                                <DropdownItem key="main" href={localized('/home')}>
+                                    <span className={linkClass(pagePath === '/home')}>{t.main}</span>
                                 </DropdownItem>
-                                <DropdownItem key="contact" onPress={() => navigate('/contact')}>
-                                    <span className={linkClass(pathname.endsWith('/contact'))}>{t.contact}</span>
+                                <DropdownItem key="contact" href={localized('/contact')}>
+                                    <span className={linkClass(pagePath === '/contact')}>{t.contact}</span>
                                 </DropdownItem>
                             </DropdownSection>
                             <DropdownSection showDivider title={t.gallery} classNames={{group: "grid grid-cols-2 gap-2"}}>
                                 {GALLERY_ITEMS.map(({key, Icon}) => (
                                     <DropdownItem key={key} startContent={<Icon size={20}/>} className={MOBILE_GRID_ITEM_CLASS}
-                                                  onPress={() => openGallerySection(key)}>{t[key]}</DropdownItem>
+                                                  href={galleryHref(key)}>{t[key]}</DropdownItem>
                                 ))}
                             </DropdownSection>
                             <DropdownSection showDivider title={t.details} classNames={{group: "grid grid-cols-2 gap-2"}}>
                                 {DETAILS_ITEMS.map(({key, Icon}) => (
                                     <DropdownItem key={key} startContent={<Icon size={20}/>} className={MOBILE_GRID_ITEM_CLASS}
-                                                  onPress={() => openDetailsSection(key)}>{t[key]}</DropdownItem>
+                                                  href={detailsHref(key)}>{t[key]}</DropdownItem>
                                 ))}
                             </DropdownSection>
                             <DropdownSection classNames={{group: "flex flex-row w-fit gap-4 mx-auto text-neutral-400"}}>
@@ -184,30 +175,30 @@ export default function NavbarGlassArtista() {
                         </Tooltip>
                     </NavbarItem>
                     <NavbarItem>
-                        <NavTextButton isActive={pathname.endsWith('/home')} onPress={() => navigate('/home')}>
+                        <NavTextButton isActive={pagePath === '/home'} href={localized('/home')}>
                             {t.main}
                         </NavTextButton>
                     </NavbarItem>
                     <HoverDropdown isOpen={isGalleryOpen} setIsOpen={setGalleryIsOpen} label={t.gallery}
-                                   isActive={pathname.endsWith('/gallery')}>
+                                   isActive={pagePath === '/gallery'} href={localized('/gallery')}>
                         <DropdownMenu aria-label="Gallery menu">
                             {GALLERY_ITEMS.map(({key, Icon}) => (
                                 <DropdownItem key={key} startContent={<Icon size={20}/>}
-                                              onPress={() => openGallerySection(key)}>{t[key]}</DropdownItem>
+                                              href={galleryHref(key)} onPress={closeGallery}>{t[key]}</DropdownItem>
                             ))}
                         </DropdownMenu>
                     </HoverDropdown>
                     <HoverDropdown isOpen={isDetailsOpen} setIsOpen={setDetailsIsOpen} label={t.details}
-                                   isActive={pathname === localized('/details')} variant="light">
+                                   isActive={pagePath === '/details'} variant="light" href={localized('/details')}>
                         <DropdownMenu aria-label="Details menu">
                             {DETAILS_ITEMS.map(({key, Icon}) => (
                                 <DropdownItem key={key} startContent={<Icon size={20}/>}
-                                              onPress={() => openDetailsSection(key)}>{t[key]}</DropdownItem>
+                                              href={detailsHref(key)} onPress={closeDetails}>{t[key]}</DropdownItem>
                             ))}
                         </DropdownMenu>
                     </HoverDropdown>
                     <NavbarItem>
-                        <NavTextButton isActive={pathname.endsWith('/contact')} onPress={() => navigate('/contact')}>
+                        <NavTextButton isActive={pagePath === '/contact'} href={localized('/contact')}>
                             {t.contact}
                         </NavTextButton>
                     </NavbarItem>

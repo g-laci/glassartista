@@ -4,9 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/seo-lastmod.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "seo:lastmod": "node scripts/seo-lastmod.mjs",
+    "seo:og-images": "node scripts/generate-og-images.mjs",
+    "seo:audit": "node scripts/seo-audit.mjs",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@heroui/react": "^2.8.0-beta.13",

@@ -5,8 +5,11 @@ import {TbExternalLink} from "react-icons/tb";
 import ContactForm from "@/app/components/contact/ContactForm";
 import {CONTACT_ADDRESS_LINES, CONTACT_PHONES, CONTACT_TEXT} from "@/app/content/contact";
 
-/** Contact page: address, phones and brand channels (`children`) next to the contact form. */
-export default function ContactLayout({site, locale, infoClassName, children}) {
+/**
+ * Contact page: address, phones and brand channels (`children`) next to the contact form.
+ * `heading` is the page's (visually hidden) <h1>; `jsonLd` its structured data element.
+ */
+export default function ContactLayout({site, locale, infoClassName, heading, jsonLd, children}) {
     const t = CONTACT_TEXT[locale];
     const addressLines = CONTACT_ADDRESS_LINES[locale];
     const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressLines.join(', '))}`;
@@ -14,6 +17,8 @@ export default function ContactLayout({site, locale, infoClassName, children}) {
     return (
         <div
             className="flex flex-col overflow-visible lg:flex-row gap-10 lg:gap-24 w-screen items-center justify-center lg:h-screen-minus-navbar-desktop mt-4 lg:mt-0 lg:pl-16">
+            {jsonLd}
+            <h1 className="sr-only">{heading}</h1>
             <div className={infoClassName}>
                 <h2 className="text-5xl allura-regular underline decoration-2 underline-offset-8 mx-auto">{t.contactNameHeader}</h2>
 
@@ -44,7 +49,7 @@ export default function ContactLayout({site, locale, infoClassName, children}) {
 /** Link to an external profile: brand icon, handle and an "external link" marker. */
 export function ExternalProfileLink({href, icon, label}) {
     return (
-        <Link href={href} target="_blank">
+        <Link href={href} target="_blank" rel="noopener">
             <div className="flex flex-row items-center gap-2 ">
                 {icon}
                 {label}

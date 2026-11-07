@@ -84,6 +84,7 @@ function ImageSlide({slide, index, current, eager, icon: Icon, onSlideClick, tou
     };
 
     const {src, position, title} = slide;
+    const alt = slide.alt ?? title ?? "";
     const mediaClassName = "absolute inset-0 w-[100%] h-[100%] rounded-xl object-cover transition-opacity duration-600 ease-in-out";
     const mediaStyle = {opacity: isCurrent ? 1 : 0.1, objectPosition: position || "bottom center"};
 
@@ -115,7 +116,7 @@ function ImageSlide({slide, index, current, eager, icon: Icon, onSlideClick, tou
                                 className={mediaClassName}
                                 style={mediaStyle}
                                 draggable={false}
-                                aria-label={title}
+                                aria-label={alt}
                                 src={src}
                                 onLoadedData={revealOnLoad}
                                 playsInline
@@ -129,7 +130,7 @@ function ImageSlide({slide, index, current, eager, icon: Icon, onSlideClick, tou
                                 className={mediaClassName}
                                 style={mediaStyle}
                                 draggable={false}
-                                alt={title || ""}
+                                alt={alt}
                                 src={src}
                                 fill
                                 // Frames are portrait and most photos landscape (object-cover crops the
@@ -235,7 +236,7 @@ export function ImageCarousel({slides, current, setCurrent, handlePreviousClick,
 
             <ImageModal
                 src={slides[current]?.src ?? ''}
-                alt={slides[current]?.title ?? ''}
+                alt={slides[current]?.alt ?? slides[current]?.title ?? ''}
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
             />
