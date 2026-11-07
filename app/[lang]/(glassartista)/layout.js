@@ -1,15 +1,15 @@
+import {Suspense} from "react";
 import NavbarGlassArtista from "@/app/components/NavbarGlassArtista";
 
-export default function GlassArtistaLayout(props) {
-
-    const { children } = props;
-
+export default function GlassArtistaLayout({children}) {
     return (
         <section className="min-h-screen max-w-screen">
             <div>
-                <NavbarGlassArtista />
+                {/* The navbar reads search params, which requires a Suspense boundary. */}
+                <Suspense>
+                    <NavbarGlassArtista/>
+                </Suspense>
                 {children}
-
             </div>
         </section>
     );

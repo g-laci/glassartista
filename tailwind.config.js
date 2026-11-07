@@ -1,4 +1,3 @@
-// tailwind.config.js
 const {heroui} = require("@heroui/react");
 
 /** @type {import('tailwindcss').Config} */
@@ -10,19 +9,15 @@ module.exports = {
     theme: {
         extend: {
             height: {
-                'screen-minus-navbar-desktop': 'calc(100vh - 80px)', // adjust 80px to your navbar height
+                // Generates the responsive variants (e.g. `lg:h-screen-minus-navbar-desktop`, 80px).
+                // The unprefixed class is overridden by the unlayered rule in globals.css (64px).
+                'screen-minus-navbar-desktop': 'calc(100vh - 80px)',
             },
         },
     },
-    variants: {
-        extend: {
-            height: ['responsive'],
-        },
-    },
+    // NOTE: this compiles `dark:` utilities to `:is(class *)`, which never matches, so every
+    // `dark:` class (ours and HeroUI's) is inert. The site's current look depends on that;
+    // changing it to "class" would switch them all on and alter the design.
     darkMode: ["class", "class"],
-    plugins: [heroui({
-
-
-    }),
-    ],
+    plugins: [heroui()],
 };

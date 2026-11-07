@@ -1,33 +1,14 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap');
-
 @config "../tailwind.config.js";
 
-.title--t1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.title--t1-cursive {
-    font-family: 'Allura', cursive;
-    font-style: normal;
-}
+/* Font variables are defined on <html> by next/font (see app/lib/fonts.js).
+   Montserrat is intentionally NOT loaded: it never loaded on the live site (its @import was
+   ignored), so these rules render with the system sans-serif. Loading it would change the look. */
 
 .allura-regular {
-    font-family: "Allura", cursive;
+    font-family: var(--font-allura), cursive;
     font-weight: 500;
-    font-style: normal;
-}
-
-.cormorant-regular {
-    font-family: "Cormorant Garamond", serif;
-    font-weight: 700;
     font-style: normal;
 }
 
@@ -42,31 +23,20 @@ body, html {
 }
 
 .inter-description {
-    font-family: "Inter", sans-serif;
+    font-family: var(--font-inter), sans-serif;
     font-optical-sizing: auto;
     font-weight: 300;
     font-style: normal;
 }
 
-.brandAutoWidth {
-    width: auto !important;
-    min-width: 0 !important;
-    flex: none !important;
-}
-
-.centerContent {
-    flex: 1 1 0%;
-    justify-content: center;
-    display: flex;
-}
-
 .antonio-navbar {
-              font-family: "Antonio", sans-serif;
-              font-optical-sizing: auto;
-              font-weight: 100;
-              font-style: normal;
-          }
+    font-family: var(--font-antonio), sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+}
 
+/* Unlayered, so it wins over the Tailwind utility of the same name (see tailwind.config.js). */
 .h-screen-minus-navbar-desktop {
     height: calc(100vh - 64px);
 }

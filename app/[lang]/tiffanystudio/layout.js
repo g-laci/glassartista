@@ -1,16 +1,15 @@
+import {Suspense} from "react";
 import NavbarTiffanyStudio from "@/app/components/NavbarTiffanyStudio";
-import Footer from "@/app/components/Footer";
 
-export default function TiffanyStudioLayout(props) {
-
-    const { children } = props;
-
+export default function TiffanyStudioLayout({children}) {
     return (
         <section className="min-h-screen max-w-screen">
             <div>
-                <NavbarTiffanyStudio />
+                {/* The navbar reads search params, which requires a Suspense boundary. */}
+                <Suspense>
+                    <NavbarTiffanyStudio/>
+                </Suspense>
                 {children}
-
             </div>
         </section>
     );
