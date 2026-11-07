@@ -83,15 +83,14 @@ function getRouteLabel(pathname, t) {
 }
 
 export default function NavbarGlassArtista() {
-    const {host, locale, pathname, router, localized, currentPageIn} = useLocaleNavigation();
+    const {locale, pathname, router, localized, switchLocale} = useLocaleNavigation();
     const t = GLASSARTISTA_NAV_TEXT[locale];
-    const phone = getGlassArtistaPhone(host, locale);
+    const phone = getGlassArtistaPhone(locale);
 
     const [isGalleryOpen, setGalleryIsOpen] = useState(false);
     const [isDetailsOpen, setDetailsIsOpen] = useState(false);
 
     const navigate = (path) => router.push(localized(path));
-    const changeLocale = (target) => router.push(currentPageIn(target));
 
     // The first entry of each menu opens the page at its top, the others jump to their section.
     const openGallerySection = (key) => {
@@ -154,7 +153,7 @@ export default function NavbarGlassArtista() {
                                         key={flagLocale}
                                         aria-label={LOCALE_LABELS[flagLocale]}
                                         aria-current={locale === flagLocale ? 'true' : undefined}
-                                        onPress={() => changeLocale(flagLocale)}
+                                        onPress={() => switchLocale(flagLocale)}
                                     >
                                         <FlagAvatar locale={flagLocale} isActive={locale === flagLocale}
                                                     sizeClass={MOBILE_FLAG_SIZE[flagLocale]}/>

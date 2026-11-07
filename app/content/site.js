@@ -16,13 +16,9 @@ export const TIFFANY_LINKS = {
 const PHONE_AT = {href: "tel:+436766933329", display: "+43 (0) 676 693 3329"};
 const PHONE_HU = {href: "tel:+36703600950", display: "+36-70/360-0950"};
 
-/** Phone shown in the GlassArtista navbar, by host and locale. */
-export function getGlassArtistaPhone(host, locale) {
-    if (host === "glassartista.com") {
-        return locale === "hu" ? PHONE_HU : PHONE_AT;
-    }
-    // Any other host (localhost, previews) keeps the original development placeholder link.
-    return {href: "tel:+36123456789", display: PHONE_AT.display};
+/** Phone shown in the GlassArtista navbar: the Hungarian number for Hungarian, otherwise the Austrian one. */
+export function getGlassArtistaPhone(locale) {
+    return locale === "hu" ? PHONE_HU : PHONE_AT;
 }
 
 /** Phone shown in the Tiffany Studio navbar, by host. */

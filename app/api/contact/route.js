@@ -7,7 +7,7 @@ const SITES = {
     glassartista: {senderName: 'GlassArtista', userEnv: 'SMTP_USER_GLASSARTISTA', passEnv: 'SMTP_PASS_GLASSARTISTA'},
 };
 
-const DEFAULT_SUBJECT = 'Contant form submission';
+const DEFAULT_SUBJECT = 'Contact form submission';
 const EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 // Maximum lengths; single-line fields must not contain line breaks (they end up in mail headers).

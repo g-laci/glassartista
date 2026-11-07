@@ -34,7 +34,9 @@ export default function ContactForm({site, locale, t}) {
     const onSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
-        const data = {...Object.fromEntries(new FormData(event.currentTarget)), site};
+        // Captured now: event.currentTarget is no longer set after the await below.
+        const form = event.currentTarget;
+        const data = {...Object.fromEntries(new FormData(form)), site};
         try {
             const response = await fetch('/api/contact', {
                 method: 'POST',
@@ -44,6 +46,7 @@ export default function ContactForm({site, locale, t}) {
             const result = await response.json();
             if (result.success) {
                 setSubmittedName(data.name);
+                form.reset(); // clears the uncontrolled phone and subject fields
                 setFields(EMPTY_FIELDS);
                 setTouched({});
                 setRecaptchaToken(null);

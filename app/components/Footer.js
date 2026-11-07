@@ -17,20 +17,13 @@ function getBrand(host, locale) {
 }
 
 export default function Footer() {
-    const {host, locale, pathname, router, currentPage, currentPageIn} = useLocaleNavigation();
+    const {host, locale, pathname, switchLocale} = useLocaleNavigation();
 
     // On the GlassArtista landing page the flags are also shown on mobile.
     const isGlassArtistaLanding = (host === 'glassartista.com' || host === 'localhost')
         && stripLocaleFromPath(pathname) === '/';
     // tiffanystudio.at has no Hungarian version.
     const flagLocales = host === 'tiffanystudio.at' ? LOCALES.filter((l) => l !== 'hu') : LOCALES;
-
-    const changeLocale = (target) => {
-        // German on the Hungarian studio domain lives on the Austrian domain.
-        router.push(host === 'tiffanystudio.hu' && target === 'de'
-            ? `https://www.tiffanystudio.at${currentPage()}`
-            : currentPageIn(target));
-    };
 
     return (
         <footer className="fixed bottom-0 lg:pr-2 z-53 w-screen lg:w-2/5 h-min mt-10 justify-self-end animate__animated animate__fadeInUp ">
@@ -39,7 +32,7 @@ export default function Footer() {
                 <div className={`${isGlassArtistaLanding ? 'flex' : 'hidden lg:flex'} flex-row gap-3 items-center`}>
                     {flagLocales.map((flagLocale) => (
                         <FlagAvatar key={flagLocale} locale={flagLocale} isActive={locale === flagLocale}
-                                    sizeClass="!w-5.5 !h-5.5" onClick={() => changeLocale(flagLocale)}/>
+                                    sizeClass="!w-5.5 !h-5.5" onClick={() => switchLocale(flagLocale)}/>
                     ))}
                 </div>
                 <div className="flex flex-row gap-2 lg:justify-end ">

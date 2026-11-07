@@ -2,9 +2,7 @@
 
 @config "../tailwind.config.js";
 
-/* Font variables are defined on <html> by next/font (see app/lib/fonts.js).
-   Montserrat is intentionally NOT loaded: it never loaded on the live site (its @import was
-   ignored), so these rules render with the system sans-serif. Loading it would change the look. */
+/* Font variables are defined on <html> by next/font (see app/lib/fonts.js). */
 
 .allura-regular {
     font-family: var(--font-allura), cursive;
@@ -14,11 +12,11 @@
 
 .paragraph--p1 {
     font-weight: 400;
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-montserrat), sans-serif;
 }
 
 body, html {
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-montserrat), sans-serif;
     line-height: 1.5;
 }
 

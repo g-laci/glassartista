@@ -3,20 +3,20 @@
 export const DETAILS_TEXT = {
     hu: {
         engineeringDesign: [
-            {title: "Mérnöki tervezés", src: "/glassartista/engineeringdesign/engineeringdesign-1.webp"},
+            {title: "Mérnöki tervezés", src: "/glassartista/engineeringDesign/engineeringdesign-1.webp"},
             {
                 paragraph: "Minden munkánk a megrendelővel történő egyeztetés és a megálmodás után mérnöki kezekbe kerül, AutoCAD program segítségével készítjük el a terveket. Ez által az elvégzett díszüvegmunka igényes és precíz lesz. Pl. egy ólomüvegkupola terveit 3D modellben is elkészítjük a megrendelő részére.",
-                src: "/glassartista/engineeringdesign/engineeringdesign-2.webp"
+                src: "/glassartista/engineeringDesign/engineeringdesign-2.webp"
             },
             {
                 paragraph: "A 3 dimenziós díszüveg munkákhoz – mint pl. egy domború kupola- minden alkalommal méretpontos sablon készül, melyet szintén mérnöki tervezés alapján CNC marógép segítségével gyártanak le. A sablon lehetővé teszi, hogy minden egyes ólomüveg-elemet tizedmilliméter pontossággal készítsünk el és a kupolánál tartsuk a díszüveg-elem ívét.",
-                src: "/glassartista/engineeringdesign/engineeringdesign-3.webp"
+                src: "/glassartista/engineeringDesign/engineeringdesign-3.webp"
             },
             {
-                src: "/glassartista/engineeringdesign/engineeringdesign-4.webp"
+                src: "/glassartista/engineeringDesign/engineeringdesign-4.webp"
             },
             {
-                src: "/glassartista/engineeringdesign/engineeringdesign-5.webp"
+                src: "/glassartista/engineeringDesign/engineeringdesign-5.webp"
             },
         ],
         glasses: [
@@ -78,20 +78,20 @@ export const DETAILS_TEXT = {
     },
     de: {
         engineeringDesign: [
-            {title: "Ingenieure Planung", src: "/glassartista/engineeringdesign/engineeringdesign-1.webp"},
+            {title: "Ingenieure Planung", src: "/glassartista/engineeringDesign/engineeringdesign-1.webp"},
             {
                 paragraph: " Nach der Abstimmung mit dem Auftraggeber und der Ideenfindung geht jede unserer Arbeiten in die Hände von Ingenieuren über. Wir erstellen die Pläne mit Hilfe von AutoCAD. Dadurch wird die ausgeführte Glasarbeit anspruchsvoll und präzise. Zum Beispiel erstellen wir die Pläne einer Bleiglas-Kuppel auch als 3D-Modell für den Auftraggeber.",
-                src: "/glassartista/engineeringdesign/engineeringdesign-2.webp"
+                src: "/glassartista/engineeringDesign/engineeringdesign-2.webp"
             },
             {
                 paragraph: "Für die 3-dimensionalen Glasdekorarbeiten – wie z. B. eine gewölbte Kuppel – wird jedes Mal eine maßgenaue Schablone angefertigt, die ebenfalls auf der Grundlage einer technischen Planung mit Hilfe einer CNC-Fräsmaschine hergestellt wird. Die Schablone ermöglicht es, jedes einzelne Bleiglas-Element mit einer Genauigkeit von Zehntelmillimetern herzustellen und bei der Kuppel die Wölbung des Glasdekor-Elements beizubehalten.",
-                src: "/glassartista/engineeringdesign/engineeringdesign-3.webp"
+                src: "/glassartista/engineeringDesign/engineeringdesign-3.webp"
             },
             {
-                src: "/glassartista/engineeringdesign/engineeringdesign-4.webp"
+                src: "/glassartista/engineeringDesign/engineeringdesign-4.webp"
             },
             {
-                src: "/glassartista/engineeringdesign/engineeringdesign-5.webp"
+                src: "/glassartista/engineeringDesign/engineeringdesign-5.webp"
             },
         ],
         glasses: [
@@ -154,20 +154,20 @@ export const DETAILS_TEXT = {
     },
     en: {
         engineeringDesign: [
-            {title: "Engineering design", src: "/glassartista/engineeringdesign/engineeringdesign-1.webp"},
+            {title: "Engineering design", src: "/glassartista/engineeringDesign/engineeringdesign-1.webp"},
             {
                 paragraph: "After consultations with the customer of their expectations, every one of our workpieces is forwarded to engineers. We prepare the plans using the AutoCAD program. As a result, the decorative glass work produced will be demanding and precise. For instance, we create the designs of a stained-glass dome in a 3D model for the customer.",
-                src: "/glassartista/engineeringdesign/engineeringdesign-2.webp"
+                src: "/glassartista/engineeringDesign/engineeringdesign-2.webp"
             },
             {
                 paragraph: "For 3-dimensional decorative glass works – such as a convex dome – a template is made every time with exact dimensions, which is manufactured based on engineering design using a CNC milling machine. The template makes it possible to make each stained-glass element with an accuracy of a tenth of a millimeter and to keep the curve of the decorative glass element at the dome.",
-                src: "/glassartista/engineeringdesign/engineeringdesign-3.webp"
+                src: "/glassartista/engineeringDesign/engineeringdesign-3.webp"
             },
             {
-                src: "/glassartista/engineeringdesign/engineeringdesign-4.webp"
+                src: "/glassartista/engineeringDesign/engineeringdesign-4.webp"
             },
             {
-                src: "/glassartista/engineeringdesign/engineeringdesign-5.webp"
+                src: "/glassartista/engineeringDesign/engineeringdesign-5.webp"
             },
         ],
         glasses: [

@@ -21,7 +21,8 @@ export function useLocaleNavigation() {
 
     /** The current page (path without locale, query and hash). Call from event handlers only. */
     const currentPage = () => {
-        const search = searchParams ? `?${searchParams.toString()}` : '';
+        const query = searchParams?.toString();
+        const search = query ? `?${query}` : '';
         return `${stripLocaleFromPath(pathname)}${search}${window.location.hash}`;
     };
 
@@ -29,5 +30,13 @@ export function useLocaleNavigation() {
     const currentPageIn = (targetLocale) =>
         isHiddenDefault(targetLocale) ? currentPage() : `/${targetLocale}${currentPage()}`;
 
-    return {host, locale, hostConfig, pathname, router, localized, currentPage, currentPageIn};
+    /** Navigates to the current page in `targetLocale` (the language switchers). */
+    const switchLocale = (targetLocale) => {
+        // tiffanystudio.hu has no German version: German lives on the Austrian domain.
+        router.push(host === 'tiffanystudio.hu' && targetLocale === 'de'
+            ? `https://www.tiffanystudio.at${currentPage()}`
+            : currentPageIn(targetLocale));
+    };
+
+    return {host, locale, hostConfig, pathname, router, localized, switchLocale};
 }

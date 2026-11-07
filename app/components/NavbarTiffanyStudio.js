@@ -63,21 +63,21 @@ const MOBILE_FLAG_SIZE = {hu: '!w-6 !h-6', de: '!w-6 !h-6', en: '!w-5.5 !h-5.5'}
 const BAR_BASE_CLASS = "animate__animated animate__fadeInDown bg-transparent select-none uppercase antonio-navbar";
 const MOBILE_GRID_ITEM_CLASS = 'border-2 border-gray-200';
 
-/** Navbar label for the current route. The first path segment is always dropped. */
+/**
+ * Navbar label for the current route. Studio pages are served under /tiffanystudio on
+ * glassartista.com and at the root on the studio domains, so both forms are recognised.
+ */
 function getRouteLabel(pathname, t) {
-    const stripped = `/${pathname.split('/').slice(2).join('/')}`;
-    const route = stripped === '/tiffanystudio' || pathname === '/' ? '/tiffanystudio' : stripped;
-    switch (route) {
-        case '/tiffanystudio':
+    const page = stripLocaleFromPath(pathname)
+        .replace(/^\/tiffanystudio(?=\/|$)/, '')
+        .replace(/\/+$/, '') || '/';
+    switch (page) {
         case '/':
             return t.main;
-        case '/tiffanystudio/tiffanylamps':
         case '/tiffanylamps':
             return t.tiffanyLamps;
-        case '/tiffanystudio/tiffanylampsavailable':
         case '/tiffanylampsavailable':
             return t.availableLamps;
-        case '/tiffanystudio/contact':
         case '/contact':
             return t.contact;
         default:
@@ -86,7 +86,7 @@ function getRouteLabel(pathname, t) {
 }
 
 export default function NavbarTiffanyStudio() {
-    const {host, locale, hostConfig, pathname, router, localized, currentPage, currentPageIn} = useLocaleNavigation();
+    const {host, locale, hostConfig, pathname, router, localized, switchLocale} = useLocaleNavigation();
     const t = TIFFANY_NAV_TEXT[locale];
     const phone = getTiffanyPhone(host);
     const isStudioHost = STUDIO_HOSTS.includes(host);
@@ -109,11 +109,6 @@ export default function NavbarTiffanyStudio() {
         }
         const studioPath = localized(`/tiffanystudio/${path}`);
         router.push(host === 'glassartista.com' ? `https://${host}${studioPath}` : studioPath);
-    };
-
-    const changeLocale = (target) => {
-        // On tiffanystudio.hu German is served without a locale prefix.
-        router.push(host === 'tiffanystudio.hu' && target === 'de' ? currentPage() : currentPageIn(target));
     };
 
     // The first entry of each menu opens the page at its top, the others jump to their section.
@@ -181,7 +176,7 @@ export default function NavbarTiffanyStudio() {
                                         key={flagLocale}
                                         aria-label={LOCALE_LABELS[flagLocale]}
                                         aria-current={locale === flagLocale ? 'true' : undefined}
-                                        onPress={() => changeLocale(flagLocale)}
+                                        onPress={() => switchLocale(flagLocale)}
                                     >
                                         <FlagAvatar locale={flagLocale} isActive={locale === flagLocale}
                                                     sizeClass={MOBILE_FLAG_SIZE[flagLocale]}/>

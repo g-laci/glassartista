@@ -20,6 +20,7 @@ export default function StudioView({slides}) {
     const currentSection = useRef(0);
     const [activeSection, setActiveSection] = useState(0);
     const [carouselIndex, setCarouselIndex] = useState(0);
+    const [backgroundIndex, setBackgroundIndex] = useState(0);
 
     // Desktop: the wheel moves one paragraph at a time.
     useEffect(() => {
@@ -32,6 +33,7 @@ export default function StudioView({slides}) {
 
             currentSection.current = next;
             setActiveSection(next);
+            setBackgroundIndex(next);
             isCoolingDown = true;
             if (next === 0) {
                 window.scrollTo({top: 0, behavior: "smooth"});
@@ -46,17 +48,16 @@ export default function StudioView({slides}) {
         return () => window.removeEventListener("wheel", handleWheel);
     }, [sectionRefs]);
 
-    // Mobile: the carousel position drives the section (and so the background colour).
-    useEffect(() => {
+    // Mobile: the carousel position also drives the section (and so the background colour).
+    const selectSlide = (index) => {
+        setCarouselIndex(index);
         if (window.innerWidth < XL_BREAKPOINT_PX) {
-            currentSection.current = carouselIndex;
+            currentSection.current = index;
+            setBackgroundIndex(index);
         }
-    }, [carouselIndex]);
-
-    const step = (direction) => setCarouselIndex((carouselIndex + direction + slides.length) % slides.length);
-    // Read during render on purpose: on mobile the colour follows the previous carousel position,
-    // exactly as before this refactor.
-    const backgroundColor = BACKGROUND_COLORS[currentSection.current % BACKGROUND_COLORS.length];
+    };
+    const step = (direction) => selectSlide((carouselIndex + direction + slides.length) % slides.length);
+    const backgroundColor = BACKGROUND_COLORS[backgroundIndex % BACKGROUND_COLORS.length];
 
     return (
         <>
@@ -104,13 +105,13 @@ export default function StudioView({slides}) {
             <div className="w-full h-[80vh] xl:hidden justify-self-center">
                 <div className="relative overflow-hidden w-fit h-full justify-center items-center flex flex-col gap-4">
                     <div className="w-screen overflow-hidden">
-                        <TextCarousel slides={slides} current={carouselIndex} setCurrent={setCarouselIndex}/>
+                        <TextCarousel slides={slides} current={carouselIndex} setCurrent={selectSlide}/>
                     </div>
                     <div className="w-screen overflow-hidden">
                         <ImageCarousel
                             slides={slides}
                             current={carouselIndex}
-                            setCurrent={setCarouselIndex}
+                            setCurrent={selectSlide}
                             handlePreviousClick={() => step(-1)}
                             handleNextClick={() => step(1)}
                             eager

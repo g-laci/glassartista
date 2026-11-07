@@ -15,9 +15,6 @@ module.exports = {
             },
         },
     },
-    // NOTE: this compiles `dark:` utilities to `:is(class *)`, which never matches, so every
-    // `dark:` class (ours and HeroUI's) is inert. The site's current look depends on that;
-    // changing it to "class" would switch them all on and alter the design.
-    darkMode: ["class", "class"],
+    darkMode: "class", // <html> carries the "dark" class
     plugins: [heroui()],
 };
